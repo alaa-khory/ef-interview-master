@@ -1,6 +1,7 @@
 package com.ef.interview.service;
 
 
+import com.ef.interview.exception.ResourceNotFoundException;
 import com.ef.interview.model.user.UserDTO;
 import com.ef.interview.model.user.UserData;
 import com.ef.interview.repository.UserRepository;
@@ -43,7 +44,7 @@ public class UserService {
 
 
     public Optional<UserData> getUserById(Long id){
-        UserData user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        UserData user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return Optional.of(user);
     }
 

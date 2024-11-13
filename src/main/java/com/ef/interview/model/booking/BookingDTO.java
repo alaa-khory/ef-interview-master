@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,5 +16,5 @@ import java.util.Date;
 public class BookingDTO {
     private Long userId;
     private Long trainerId;
-    private Date bookingDate;
+    private LocalDateTime bookingDate;
 }

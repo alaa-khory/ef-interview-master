@@ -17,12 +17,10 @@ public class TrainerService {
     private final TrainerRepository trainerRepository;
     private final ThirdPartyHelper thirdPartyHelper;
 
-    private final BookingService bookingService;
 
-    public TrainerService(TrainerRepository trainerRepository, ThirdPartyHelper thirdPartyHelper, BookingService bookingService) {
+    public TrainerService(TrainerRepository trainerRepository, ThirdPartyHelper thirdPartyHelper) {
         this.trainerRepository = trainerRepository;
         this.thirdPartyHelper = thirdPartyHelper;
-        this.bookingService = bookingService;
     }
 
 
@@ -42,27 +40,5 @@ public class TrainerService {
         trainer.setAddress(trainerDTO.getAddress());
         trainer.setEmail(trainerDTO.getEmail());
         return trainerRepository.save(trainer);
-    }
-
-    public Booking bookASession(BookingDTO bookingDTO){
-        Date currentDate = new Date();
-
-        if(bookingDTO.getBookingDate().before(currentDate)){
-            return null;
-        }
-
-        return bookingService.bookASession(bookingDTO);
-    }
-
-    public Booking getSessionById(Long id) {
-        return bookingService.getSessionById(id);
-    }
-
-    public void deleteSessionById(Long id){
-        bookingService.deleteSessionById(id);
-    }
-
-    public Booking updateSession(Long id, BookingDTO newBookingDTO){
-        return bookingService.updateSession(id,newBookingDTO);
     }
 }

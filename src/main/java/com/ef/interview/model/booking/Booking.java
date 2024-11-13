@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,6 +23,6 @@ public class Booking {
     private Long id;
     private Long userId;
     private Long trainerId;
-    private Date bookingDate;
+    private LocalDateTime bookingDate;
 
 }

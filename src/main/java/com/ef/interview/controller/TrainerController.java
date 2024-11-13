@@ -1,9 +1,11 @@
 package com.ef.interview.controller;
 
+import com.ef.interview.model.ApiResponse;
 import com.ef.interview.model.booking.Booking;
 import com.ef.interview.model.booking.BookingDTO;
 import com.ef.interview.model.trainer.Trainer;
 import com.ef.interview.service.TrainerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,35 +24,13 @@ public class TrainerController {
 
 
     @PostMapping
-    public ResponseEntity<Trainer> saveUser() {
-        return ResponseEntity.ok().body(trainerService.saveRandomTrainer());
-    }
-
-    @PostMapping("/bookASession")
-    public ResponseEntity<Booking> bookASession(@RequestBody BookingDTO bookingDTO) {
-        Booking bookedSession = trainerService.bookASession(bookingDTO);
-        if (Objects.nonNull(bookedSession)) {
-            return ResponseEntity.ok().body(trainerService.bookASession(bookingDTO));
-        } else {
-            return ResponseEntity.unprocessableEntity().body(null);
+    public ResponseEntity<ApiResponse<Trainer>> saveUser() {
+        try {
+            Trainer trainer = trainerService.saveRandomTrainer();
+            return ResponseEntity.ok().body(new ApiResponse(true, "Trainer saved successfully", trainer));
+        }catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ApiResponse<>(false, "Trainer is not created for " + ex.getMessage(), null));
         }
-    }
-
-    @GetMapping("/sessions/{sessionId}")
-    public ResponseEntity<Booking> getSessionById(@PathVariable Long sessionId) {
-        return ResponseEntity.ok().body(trainerService.getSessionById(sessionId));
-    }
-
-    @DeleteMapping("/sessions/{sessionId}")
-    public ResponseEntity<?> deleteSessionById(@PathVariable Long sessionId) {
-        trainerService.deleteSessionById(sessionId);
-        return ResponseEntity.ok().body("Session with ID[" + sessionId + "]Deleted");
-    }
-
-    @PutMapping("/sessions/{sessionId}")
-    public ResponseEntity<Booking> updateSession(@PathVariable Long sessionId, @RequestBody BookingDTO bookingDTO) {
-        Booking booking = trainerService.updateSession(sessionId, bookingDTO);
-        return ResponseEntity.ok().body(booking);
     }
 
 
